@@ -31,6 +31,7 @@ public class AmqpConnection implements Closeable {
 		basicProperties.setContentEncoding("UTF-8");
 	}
 
+
 	public AmqpConnection(final String brokerHost, final String userName, final String password, final int port, final String vHost) throws IOException {
 
 		final String brokerUri = String.format("amqp://%s@%s:%d/%s", userName, brokerHost, port, vHost);

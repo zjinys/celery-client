@@ -64,6 +64,9 @@ public class CeleryFuture implements Future<String> {
 		this.taskId = uniqueId;
 	}
 
+	public String getTaskId(){
+		return this.taskId;
+	}
 	/**
 	 * Consumes the entire queue for this job, returning only the most
 	 * recent result (Only to be used by {@link #getJobState(long)}.)

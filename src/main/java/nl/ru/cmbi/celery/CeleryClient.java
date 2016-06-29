@@ -49,6 +49,7 @@ public class CeleryClient implements Closeable {
 	private final String				submitRouteKey;
 	private final Map<String, Object>	resultQueueArgs;
 
+
 	public CeleryClient(final String brokerHost, final String userName, final String password, final int port, final String vHost, final String submitExchange, final String submitRouteKey, final String broadcastExchange, final long resultExpireSecs) throws IOException {
 
 		conn = new AmqpConnection(brokerHost, userName, password, port, vHost);
@@ -60,6 +61,10 @@ public class CeleryClient implements Closeable {
 		this.broadcastExchange = broadcastExchange;
 		this.submitExchange = submitExchange;
 		this.submitRouteKey = submitRouteKey;
+	}
+
+	public CeleryClient(final String brokerHost, final String userName, final String password) throws IOException{
+		this(brokerHost,userName,password,5672,"/","celery","celery","celery",5l);
 	}
 
 	/**
@@ -129,7 +134,10 @@ public class CeleryClient implements Closeable {
 			else {
 				msg.put("kwargs", new JSONObject(keywordArgs));
 			}
-			msg.put("args", new JSONArray(args));
+
+			if (args != null) {
+				msg.put("args", new JSONArray(args));
+			}
 		}
 		catch (final JSONException jsonEx) {
 			throw new IllegalArgumentException("Couldn't serialise arguments before submitting", jsonEx);
